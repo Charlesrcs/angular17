@@ -1,0 +1,104 @@
+<!-- Notification -->
+<div *ngIf="showNotification" 
+     class="fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg opacity-0 transform translate-x-full transition duration-500 ease-in-out"
+     [ngClass]="{'translate-x-0 opacity-100': showNotification, 'translate-x-full opacity-0': !showNotification}">
+  {{ notificationMessage }}
+</div>
+
+<!-- Main Container -->
+<div class="p-6 max-w-4xl mx-auto bg-white rounded-lg shadow-md flex flex-col min-h-screen">
+  
+  <!-- Table for displaying records -->
+  <h2 class="text-2xl font-bold mb-4">Contact Records</h2>
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+      <thead class="bg-gray-100 border-b border-gray-300">
+        <tr>
+          <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+          <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">First Name</th>
+          <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Name</th>
+          <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+          <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Age</th>
+          <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gender</th>
+          <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mobile Number</th>
+          <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PAN Number</th>
+          <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aadhaar Number</th>
+          <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+          <th class="p-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of records">
+          <td class="p-2 border-b border-gray-300 text-sm">{{ record.createdAt }}</td>
+          <td class="p-2 border-b border-gray-300 text-sm">{{ record.first_name }}</td>
+          <td class="p-2 border-b border-gray-300 text-sm">{{ record.last_name }}</td>
+          <td class="p-2 border-b border-gray-300 text-sm">{{ record.emailId }}</td>
+          <td class="p-2 border-b border-gray-300 text-sm">{{ record.age }}</td>
+          <td class="p-2 border-b border-gray-300 text-sm">{{ record.gender }}</td>
+          <td class="p-2 border-b border-gray-300 text-sm">{{ record.mobilenumber }}</td>
+          <td class="p-2 border-b border-gray-300 text-sm">{{ record.pan_no }}</td>
+          <td class="p-2 border-b border-gray-300 text-sm">{{ record.adhaar_no }}</td>
+          <td class="p-2 border-b border-gray-300 text-sm">{{ record.status ? 'Active' : 'Inactive' }}</td>
+          <td class="p-2 border-b border-gray-300 text-sm">
+            <button (click)="editRecord(record.id)" type="button" class="text-blue-500 hover:text-blue-700 text-xs">Edit</button>
+            <button (click)="deleteApiMethod(record.id)" type="button" class="ml-4 text-red-500 hover:text-red-700 text-xs">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Contact Form -->
+  <div class="mt-8 bg-gray-100 p-6 rounded-lg shadow-md flex-grow">
+    <h2 class="text-2xl font-bold mb-4">Contact Form</h2>
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <div class="grid gap-6 md:grid-cols-2">
+        <div class="mb-4">
+          <label for="createdAt" class="block text-gray-700">Created At</label>
+          <input id="createdAt" formControlName="createdAt" type="date" class="mt-1 block w-full border border-gray-300 rounded-lg p-2" />
+        </div>
+        <div class="mb-4">
+          <label for="first_name" class="block text-gray-700">First Name</label>
+          <input id="first_name" formControlName="first_name" type="text" class="mt-1 block w-full border border-gray-300 rounded-lg p-2" />
+        </div>
+        <div class="mb-4">
+          <label for="last_name" class="block text-gray-700">Last Name</label>
+          <input id="last_name" formControlName="last_name" type="text" class="mt-1 block w-full border border-gray-300 rounded-lg p-2" />
+        </div>
+        <div class="mb-4">
+          <label for="emailId" class="block text-gray-700">Email</label>
+          <input id="emailId" formControlName="emailId" type="email" class="mt-1 block w-full border border-gray-300 rounded-lg p-2" />
+        </div>
+        <div class="mb-4">
+          <label for="age" class="block text-gray-700">Age</label>
+          <input id="age" formControlName="age" type="text" class="mt-1 block w-full border border-gray-300 rounded-lg p-2" />
+        </div>
+        <div class="mb-4">
+          <label for="gender" class="block text-gray-700">Gender</label>
+          <select id="gender" formControlName="gender" class="mt-1 block w-full border border-gray-300 rounded-lg p-2">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label for="mobilenumber" class="block text-gray-700">Mobile Number</label>
+          <input id="mobilenumber" formControlName="mobilenumber" type="text" class="mt-1 block w-full border border-gray-300 rounded-lg p-2" />
+        </div>
+        <div class="mb-4">
+          <label for="pan_no" class="block text-gray-700">PAN Number</label>
+          <input id="pan_no" formControlName="pan_no" type="text" class="mt-1 block w-full border border-gray-300 rounded-lg p-2" />
+        </div>
+        <div class="mb-4">
+          <label for="adhaar_no" class="block text-gray-700">Aadhaar Number</label>
+          <input id="adhaar_no" formControlName="adhaar_no" type="text" class="mt-1 block w-full border border-gray-300 rounded-lg p-2" />
+        </div>
+        <div class="mb-4 flex items-center">
+          <input id="status" formControlName="status" type="checkbox" class="mr-2" />
+          <label for="status" class="text-gray-700">Active</label>
+        </div>
+      </div>
+      <button type="submit" *ngIf="postFlag" class="w-full bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition duration-300 ease-in-out">Submit</button>
+      <button type="submit" *ngIf="editFlag" class="w-full bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition duration-300 ease-in-out" (click)="putApiMethod()">Update</button>
+    </form>
+  </div>
+</div>
